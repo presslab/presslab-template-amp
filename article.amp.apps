@@ -1,0 +1,28 @@
+import re
+from jinja2 import contextfunction
+
+
+@contextfunction
+def format_body(context, body, editor, fotos):
+    result = []
+    
+    if not editor:
+       body = body.split('\n')
+       body = [u'<p>{0}</p>'.format(i) for i in body if i]
+    else:
+        body = re.split(u'(<p>.*</p>)', body)
+       
+    for i in body:
+        if i.find('[FOTO') >= 0:
+            for j in re.findall('\[FOTO([0-9]*)\]', i):
+                if len(fotos) >= int(j):
+                    foto = fotos[int(j)-1]
+                    result.append({'paragrafo':None, 'foto':foto}) 
+        else:
+            result.append({'paragrafo':i, 'foto':None})
+            
+    print result
+    return result
+        
+    
+_amp_functions = [format_body]
