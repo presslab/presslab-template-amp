@@ -21,7 +21,6 @@ def format_body(context, body, editor, fotos):
         else:
             result.append({'paragrafo':i, 'foto':None})
             
-    print result
     return result
         
     
