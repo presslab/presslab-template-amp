@@ -10,7 +10,15 @@ def format_body(context, body, editor, fotos):
        body = body.split('\n')
        body = [u'<p>{0}</p>'.format(i) for i in body if i]
     else:
-        body = re.split(u'(<p>.*</p>)', body)
+        body_ = re.split(u'<p>(.*?)</p>', body)
+        body = []
+        for i in body_:
+            if i.find('<br />') >= 0:
+                temp = re.split(u'<br \/>', i)
+                for j in temp:
+                    body.append('<p>{0}</p>'.format(j))
+            else:
+                body.append('<p>{0}</p>'.format(i))
        
     for i in body:
         if i.find('[FOTO') >= 0:
